@@ -13,7 +13,7 @@ Parsing from local file:
 
 NSURL *fileURL = [NSURL fileURLWithPath:@"path/to/local/file.dat"];
 kstream *s = [kstream streamWithURL:fileURL];
-example_t *data = [example_t structWith:s];
+example_t *data = [example_t initialize:s];
 
 ----
 
@@ -25,7 +25,7 @@ Parsing from `NSData`:
 
 NSData *buf = ???; /* data from somewhere */
 kstream *s = [kstream streamWithData:buf];
-example_t *data [example_t structWith:s];
+example_t *data [example_t initialize:s];
 ----
 
 === Auto-read
