@@ -122,4 +122,41 @@ enums:
  @{@"dog" : @(4), @"cat" : @(7), @"chicken" : @(12)}
  ----
 
+=== Switch Types
 
+Switch types can store different object in a property. Becuase of this the, in header file for this struct, the property will be defined as having a type of (kstruct *). For example:
+
+[source,yaml]
+----
+meta:
+  id: cast_nested
+seq:
+  - id: opcodes
+    type: opcode
+    repeat: eos
+instances:
+  opcodes_first:
+    value: opcodes[0].body.as<opcode::strval>
+types:
+  opcode:
+    seq:
+      - id: code
+        type: u1
+      - id: body
+        type:
+          switch-on: code
+          cases:
+            73: intval
+            83: strval
+    types:
+      intval:
+        seq:
+          - id: value
+            type: u1
+      strval:
+        seq:
+          - id: value
+            type: strz
+            encoding: ASCII
+----
+The type of opcode_first can either have a type of (intval_cast_nested_t *) or (str_value_cast_nested_t *) so in the header file with type of (kstruct *). You will need to type caste it to the proper type to access it's properties.
