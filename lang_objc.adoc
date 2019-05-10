@@ -135,8 +135,8 @@ enums:
     12: chicken
 ----
 
- The class KSIdentifer will include a property called _animal. That property
- will return an NSDictionary that looks like this:
+The class KSIdentifer will include a property called _animal. That property
+will return an NSDictionary that looks like this:
 
 [source,objective-c]
 ----
