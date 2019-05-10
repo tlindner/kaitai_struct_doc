@@ -14,7 +14,7 @@ Parsing from local file:
 
 NSURL *fileURL = [NSURL fileURLWithPath:@"path/to/local/file.dat"];
 KSStream *s = [KSStream streamWithURL:fileURL];
-KSExample *data = [KSExample initWithStream:s];
+KSExample *data = [KSExample structWithStream:s];
 
 ----
 Parsing from `NSData`:
