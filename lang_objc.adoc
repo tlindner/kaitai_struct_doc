@@ -26,7 +26,7 @@ Parsing from `NSData`:
 
 NSData *buf = ???; /* data from somewhere */
 KSStream *s = [KSStream streamWithData:buf];
-KSExample *data = [KSExample initWithStream:s];
+KSExample *data = [KSExample structWithStream:s];
 ----
 === Auto-read
 
@@ -35,7 +35,7 @@ you want to run parsing process and populate object's fields with the
 data read from the stream:
 [source,objective-c]
 ----
-KSExample *data = [KSExample initWithStream:s];
+KSExample *data = [KSExample structWithStream:s];
 NSLog( @"attribute: %@", data.some_attribute) ; /* already populated and available */
 ----
 However, sometimes you want more control and want to trigger that
