@@ -12,8 +12,8 @@ Parsing from local file:
 #import <kaitai/kaitaistream.h>
 
 NSURL *fileURL = [NSURL fileURLWithPath:@"path/to/local/file.dat"];
-kstream *s = [kstream streamWithURL:fileURL];
-example_t *data = [example_t initialize:s];
+KSStream *s = [KSStream streamWithURL:fileURL];
+example_t *data = [example_t initWithStream:s];
 
 ----
 
@@ -24,8 +24,8 @@ Parsing from `NSData`:
 #include <kaitai/kaitaistream.h>
 
 NSData *buf = ???; /* data from somewhere */
-kstream *s = [kstream streamWithData:buf];
-example_t *data [example_t initialize:s];
+KSStream *s = [KSStream streamWithData:buf];
+example_t *data = [example_t initWithStream:s];
 ----
 
 === Auto-read
@@ -124,7 +124,9 @@ enums:
 
 === Switch Types
 
-Switch types can store different object in a property. Becuase of this the, in header file for this struct, the property will be defined as having a type of (kstruct *). For example:
+Switch types can store different object in a property. Becuase of this the, in
+header file for this struct, the property will be defined as having a type of
+(KSStruct *). For example:
 
 [source,yaml]
 ----
@@ -159,4 +161,6 @@ types:
             type: strz
             encoding: ASCII
 ----
-The type of opcode_first can either have a type of (intval_cast_nested_t *) or (str_value_cast_nested_t *) so in the header file with type of (kstruct *). You will need to type caste it to the proper type to access it's properties.
+The type of opcode_first can either have a type of (intval_cast_nested_t *) or
+(str_value_cast_nested_t *) so in the header file with type of (KSStruct *). You
+will need to type caste it to the proper type to access it's properties.
