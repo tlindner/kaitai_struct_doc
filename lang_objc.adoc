@@ -10,10 +10,11 @@ Parsing from local file:
 [source,objective-c]
 ----
 #import <kaitai/kaitaistream.h>
+#import "example.h"
 
 NSURL *fileURL = [NSURL fileURLWithPath:@"path/to/local/file.dat"];
 KSStream *s = [KSStream streamWithURL:fileURL];
-example_t *data = [example_t initWithStream:s];
+example_t *data = [KSExample initWithStream:s];
 
 ----
 
@@ -22,10 +23,11 @@ Parsing from `NSData`:
 [source,objective-c]
 ----
 #include <kaitai/kaitaistream.h>
+#import "example.h"
 
 NSData *buf = ???; /* data from somewhere */
 KSStream *s = [KSStream streamWithData:buf];
-example_t *data = [example_t initWithStream:s];
+example_t *data = [KSExample initWithStream:s];
 ----
 
 === Auto-read
@@ -36,7 +38,7 @@ data read from the stream:
 
 [source,objective-c]
 ----
-example_t data(&ks);
+KSExample data(&ks);
 data.some_attribute(); // already populated and available
 ----
 
@@ -47,7 +49,7 @@ reading manually using `_read()` invocation:
 
 [source,objective-c]
 ----
-example_t *data = [example_t streamWith:ks];
+KSExample *data = [KSExample streamWith:ks];
 data.some_attribute; // not yet populated, may contain random garbage
 [data _read];
 data.some_attribute; // populated and available
@@ -59,10 +61,46 @@ and object population:
 * Obviously, if you're using read-write mode with the intent to
   populate the object manually and call `_write()` afterwards to
   serialize it. In this use-case, you probably won't call `_read` at
-  all.
+  all. (Note: _write not implemented yet)
 * You want to reuse the same object and thus want to repeatedly call
   `_read()` on several times manually.
 
+== Class Names
+
+The class names use the KS namespace and follow upper camel case. This means the following
+ksy file:
+
+[source,yaml]
+----
+meta:
+  id: example
+  endian: le
+seq:
+  - id: pet_1
+    type: u4
+----
+
+will produce a class name of "KSExample". Usertype classes will contain the name of the
+parent as well. The following ksy:
+
+[source,yaml]
+----
+meta:
+  id: example
+  endian: le
+seq:
+  - id: pet_1
+    type: part_foo
+types:
+  part_foo:
+    seq:
+      - id: bar1
+      type: u1
+      - id: bar2
+      type: u1
+----
+
+The class of pet_1 will be KSPartFoo_Example.
 
 == Type mapping
 
@@ -95,7 +133,7 @@ enum types are a NSDictionary with two keys: @"value", and @"enum".
 
 @"enum" returns an NSString with the human readable name or "unknown".
 
-Each Kaitai Struct class that defines a enum includes a property to access
+Each Kaitai Struct class that defines an enum includes a property to access
 a NSDictionary of all defined names and values.
 
 [source,yaml]
@@ -114,7 +152,7 @@ enums:
     12: chicken
 ----
 
- The class identifier_t will include a property called _animal. That property
+ The class KSIdentifer will include a property called _animal. That property
  will return an NSDictionary that looks like this:
 
  [source,objective-c]
@@ -124,9 +162,8 @@ enums:
 
 === Switch Types
 
-Switch types can store different object in a property. Becuase of this the, in
-header file for this struct, the property will be defined as having a type of
-(KSStruct *). For example:
+Switch types can store different objects in a property. In the header file for this
+struct, the property will be defined as having a type of (KSStruct *). For example:
 
 [source,yaml]
 ----
@@ -161,6 +198,78 @@ types:
             type: strz
             encoding: ASCII
 ----
-The type of opcode_first can either have a type of (intval_cast_nested_t *) or
-(str_value_cast_nested_t *) so in the header file with type of (KSStruct *). You
-will need to type caste it to the proper type to access it's properties.
+The type of opcode_first can either be (KSIntval_CastNested *) or
+(KSStrval_CastNested *). In the header file it will have the type of (KSStruct *). You
+will need to typecast it to the proper type to access it's properties.
+
+=== Custom processing
+
+In this example ksy:
+[source,yaml]
+----
+meta:
+  id: process_custom
+seq:
+  - id: buf1
+    size: 5
+    process: my_custom_fx(7, true, [0x20, 0x30, 0x40])
+  - id: buf2
+    size: 5
+    process: nested.deeply.custom_fx(7)
+  - id: key
+    type: u1
+  - id: buf3
+    size: 5
+    process: my_custom_fx(key, false, [0x00])
+----
+
+You will see a custom process defined that takes three parameters. You must provide an
+Objective-C class that provides this functionality.
+
+The class name should exactly match what is specified in the ksy. For the example above
+your header file will look like this:
+[source,objective-c]
+ ----
+#ifndef MY_CUSTOM_FX_H_
+#define MY_CUSTOM_FX_H_
+
+#import <Cocoa/Cocoa.h>
+
+@interface my_custom_fx : NSObject
+
+- (instancetype) initWith:(int)p_key,...;
+- (NSData *)decode:(NSData *)src;
+
+@property int key;
+@property BOOL flag;
+@property (strong) NSData *some_bytes;
+
+@end
+
+#endif  // MY_CUSTOM_FX_H_
+----
+
+Two methods are specified, initWith: and decode:. The decode: method will accept the
+data and return the processed output. InitWith: is a VARARG method that accepts all
+the parameters. Here is the Objective-C code to handle the above:
+
+[source,objective-c]
+ ----
+- (instancetype) initWith:(int)p_key,...
+{
+    self = [super init];
+    if (self) {
+        va_list args;
+        va_start(args, p_key);
+        self.key = p_key;
+        self.flag = va_arg(args, int); /* promoted from BOOL */
+        self.some_bytes = va_arg(args, NSData*);
+        va_end(args);
+
+        self.key = self.flag ? self.key : -self.key;
+    }
+    return self;
+}
+----
+
+
