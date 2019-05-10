@@ -28,6 +28,7 @@ NSData *buf = ???; /* data from somewhere */
 KSStream *s = [KSStream streamWithData:buf];
 KSExample *data = [KSExample structWithStream:s];
 ----
+
 === Auto-read
 
 By default, invoking constructor with a stream argument assumes that
@@ -58,6 +59,7 @@ and object population:
   all. (Note: _write not implemented yet)
 * You want to reuse the same object and thus want to repeatedly call
   `_read()` on several items manually.
+
 === Class Names
 The class names use the KS namespace and follow upper camel case. This means the following
 ksy file:
@@ -89,6 +91,7 @@ types:
       type: u1
 ----
 The class of pet_1 will be KSPartFoo_Example.
+
 === Type mapping
 Mapping KS types to Cocoa calsses is pretty straight-forward:
 [cols=",",options="header",]
@@ -107,6 +110,7 @@ Mapping KS types to Cocoa calsses is pretty straight-forward:
 |Array |NSArray
 |ENUM |NSDictionary
 |==========================
+
 === ENUMs
 C enums are not introspective at runtime. Becuase of this, they are not used.
 I felt it was important to retain the name in addition to the value. This means
@@ -184,6 +188,7 @@ types:
 The type of opcode_first can either be (KSIntval_CastNested *) or
 (KSStrval_CastNested *). In the header file it will have the type of (KSStruct *). You
 will need to typecast it to the proper type to access it's properties.
+
 === Custom processing
 In this example ksy:
 [source,yaml]
@@ -250,6 +255,7 @@ the parameters. Here is the Objective-C code to handle the above:
     return self;
 }
 ----
+
 === Credit
 The Objective-C runtime library and Kaitai Struct code generator was written by Tim
 Lindner (tlindner@macmess.org) around May 2019.
