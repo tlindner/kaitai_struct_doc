@@ -5,7 +5,7 @@
 
 === Quick start
 
-Adding the ksy compiler to Xcode.
+==== Adding the ksy compiler to Xcode.
 
 * Click the project icon in the navigator list (left hand side of the window).
 * Click the "Build Rules" tab in the editor.
@@ -22,9 +22,9 @@ Adding the ksy compiler to Xcode.
 ** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).h
 ** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).m
 
-image::img/Xcode_ksy_compiler_setup.png[caption="New Xcode Build Rule", title="", alt="", width="929", height="218"]
+image::img/Xcode_ksy_compiler_setup.png[caption="", title="", alt="New Xcode Build Rule", width="929", height="218"]
 
-Parsing from local file:
+==== Parsing from local file:
 
 [source,objective-c]
 ----
