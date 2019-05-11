@@ -20,6 +20,7 @@
 * <<lang_cpp_stl.adoc#,C++/STL>>
 * <<lang_java.adoc#,Java>>
 * <<lang_javascript.adoc#,JavaScript>>
+* <<lang_objc.adoc#,Objective-C/Cocoa>>
 * <<lang_php.adoc#,PHP>>
 * <<lang_python.adoc#,Python>>
 
