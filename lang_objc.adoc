@@ -22,7 +22,7 @@
 ** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).h
 ** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).m
 
-image::img/Xcode_ksy_compiler_setup.png[caption="", title="", alt="New Xcode Build Rule", width="929", height="218"]
+image::img/Xcode_ksy_compiler_setup.png[caption="", title="", alt="New Xcode Build Rule", width="676", height="220"]
 
 ==== Parsing from local file:
 
