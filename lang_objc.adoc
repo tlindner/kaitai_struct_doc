@@ -15,7 +15,7 @@
 * Change "Using" popup to me "Custom Script:"
 * Type in the following for the Scrip
 ** Full path to your Kaitai-Struct-Compiler
-** t switch with the objc parameters
+** t switch with the objc parameter
 ** outdir switch with the environmental variable of $DERIVED_FILE_DIR
 ** the environmental variable $INPUT_FILE_PATH
 * Add two output files:
@@ -75,7 +75,7 @@ and object population:
 * Obviously, if you're using read-write mode with the intent to
   populate the object manually and call `_write()` afterwards to
   serialize it. In this use-case, you probably won't call `_read` at
-  all. (Note: _write not implemented yet)
+  all. (Note: `_write` not implemented yet)
 * You want to reuse the same object and thus want to repeatedly call
   `_read()` on several items manually.
 
@@ -92,7 +92,7 @@ seq:
     type: u4
 ----
 will produce a class name of "KSExample". Usertype classes will contain the name of the
-parent as well. The following ksy:
+parent as well.
 [source,yaml]
 ----
 meta:
@@ -135,12 +135,11 @@ C enums are not introspective at runtime. Becuase of this, they are not used.
 I felt it was important to retain the name in addition to the value. This means
 enum types are a NSDictionary with two keys: @"value", and @"enum".
 
-@"value" return an NSNumber with the value.
-
-@"enum" returns an NSString with the human readable name or "unknown".
+* @"value" return an NSNumber with the value.
+* @"enum" returns an NSString with the human readable name or "unknown".
 
 Each Kaitai Struct class that defines an enum includes a property to access
-a NSDictionary of all defined names and values.
+an NSDictionary of all defined names and values.
 
 [source,yaml]
 ----
