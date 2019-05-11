@@ -22,7 +22,7 @@ Adding the ksy compiler to Xcode.
   * $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).h
   * $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).m
 
-image::img/Xcode_ksy_compiler_setup.png[caption="New Xcode Build Rule", title="", alt="", width="1049", height="241"]
+image::img/Xcode_ksy_compiler_setup.png[caption="New Xcode Build Rule", title="", alt="", width="929", height="218"]
 
 Parsing from local file:
 
