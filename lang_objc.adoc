@@ -7,20 +7,20 @@
 
 Adding the ksy compiler to Xcode.
 
- * Click the project icon in the navigator list (left hand side of the window).
- * Click the "Build Rules" tab in the editor.
- * Click the "+" button to add a build rule.
- * Change the "Process" popup to be "Source files with names matching:"
- * Type "*.ksy" in the adjoining text field.
- * Change "Using" popup to me "Custom Script:"
- * Type in the following for the Scrip
-   * Full path to your Kaitai-Struct-Compiler
-   * t switch with the objc parameters
-   * outdir switch with the environmental variable of $DERIVED_FILE_DIR
-   * the environmental variable $INPUT_FILE_PATH
- * Add two output files:
-   * $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).h
-   * $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).m
+* Click the project icon in the navigator list (left hand side of the window).
+* Click the "Build Rules" tab in the editor.
+* Click the "+" button to add a build rule.
+* Change the "Process" popup to be "Source files with names matching:"
+* Type "*.ksy" in the adjoining text field.
+* Change "Using" popup to me "Custom Script:"
+* Type in the following for the Scrip
+** Full path to your Kaitai-Struct-Compiler
+** t switch with the objc parameters
+** outdir switch with the environmental variable of $DERIVED_FILE_DIR
+** the environmental variable $INPUT_FILE_PATH
+* Add two output files:
+** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).h
+** $(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).m
 
 image::img/Xcode_ksy_compiler_setup.png[caption="New Xcode Build Rule", title="", alt="", width="929", height="218"]
 
